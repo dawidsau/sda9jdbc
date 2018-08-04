@@ -45,7 +45,7 @@ public class JdbcMain {
     private static Connection getConnection() {
         try {
             return DriverManager
-                    .getConnection("jdbc:mysql://127.0.0.1:3306/sdajdbc?useSSL=false",
+                    .getConnection("jdbc:mysql://127.0.0.1:3306/sdajdbc?useSSL=false&serverTimezone=UTC",
                             "root", "MyNewPass");
         } catch (SQLException e) {
             e.printStackTrace();
