@@ -12,5 +12,13 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    private String name;
+    private String firstName;
+
+    private String surname;
+
+    private String city;
+
+    private String street;
+
+    private String postalCode;
 }
