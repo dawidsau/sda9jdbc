@@ -12,7 +12,7 @@ import java.util.List;
 
 public class JpaMain {
 
-    private final static EntityManagerFactory entityManagerFactory =
+    public final static EntityManagerFactory ENTITY_MANAGER_FACTORY =
             Persistence.createEntityManagerFactory("sdajpaPU");
 
     public static void main(String[] args) {
@@ -41,7 +41,7 @@ public class JpaMain {
         customer.setOrdersList(Lists.newArrayList(order));
         order.setCustomer(customer);
 
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
         entityManager.getTransaction().begin();
 //        entityManager.persist(customer);
         entityManager.persist(order);
@@ -51,13 +51,13 @@ public class JpaMain {
     }
 
     private static void findCustomerEM(Integer id) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
         Customer customer = entityManager.find(Customer.class, id);
         System.out.println(customer);
     }
 
     private static void findCustomerJPQL(String surname) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
         TypedQuery<Customer> query = entityManager.createQuery(
                 "select c from Customer c where c.surname = :surname",
                 Customer.class);
