@@ -6,7 +6,7 @@
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
         <class>pl.sda.jdbcjpa.person.Customer</class>
-        <!--<class>pl.sda.jdbcjpa.order.Order</class>-->
+        <class>pl.sda.jdbcjpa.order.Order</class>
         <!--<class>pl.sda.jdbcjpa.order.OrderLine</class>-->
         <!--<class>pl.sda.jdbcjpa.order.OrderStatus</class>-->
         <properties>

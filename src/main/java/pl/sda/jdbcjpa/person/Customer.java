@@ -1,8 +1,11 @@
 package pl.sda.jdbcjpa.person;
 
 import lombok.*;
+import pl.sda.jdbcjpa.order.Order;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -28,4 +31,7 @@ public class Customer {
 
     @Transient
     private String thisFieldIsNotToPersist;
+
+    @OneToMany(mappedBy = "customer")
+    private List<Order> ordersList = new ArrayList<>();
 }
