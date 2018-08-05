@@ -23,7 +23,7 @@ public class CustomerDao {
     public List<Customer> findCustomersWithOrders() {
         return entityManager.createQuery(
                 "select c from Customer c join Order o " +
-                        "on o.customer.id = c.id where c.street = :street",
+                        "on o.customer.id = c.id",
                 Customer.class
         ).getResultList();
     }

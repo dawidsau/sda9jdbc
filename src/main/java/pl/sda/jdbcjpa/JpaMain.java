@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import pl.sda.jdbcjpa.order.Order;
 import pl.sda.jdbcjpa.order.OrderStatus;
 import pl.sda.jdbcjpa.person.Customer;
+import pl.sda.jdbcjpa.person.CustomerDao;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -15,12 +16,20 @@ public class JpaMain {
     public final static EntityManagerFactory ENTITY_MANAGER_FACTORY =
             Persistence.createEntityManagerFactory("sdajpaPU");
 
+    private static CustomerDao customerDao = new CustomerDao();
+
     public static void main(String[] args) {
 //        createCustomer();
 //        findCustomerJPQL("Nowak");
 //        findCustomerEM(1);
 
         createCustomerWithOrder();
+        findCustomersWithOrders();
+    }
+
+    private static void findCustomersWithOrders() {
+        List<Customer> customersWithOrders = customerDao.findCustomersWithOrders();
+        System.out.println();
     }
 
     private static void createCustomerWithOrder() {
@@ -43,8 +52,8 @@ public class JpaMain {
 
         EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
         entityManager.getTransaction().begin();
-//        entityManager.persist(customer);
-        entityManager.persist(order);
+        entityManager.persist(customer);
+//        entityManager.persist(order);
         entityManager.getTransaction().commit();
         List<Order> ordersList = customer.getOrdersList();
         System.out.println();
@@ -68,7 +77,7 @@ public class JpaMain {
     }
 
     private static void createCustomer() {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         Customer customer = new Customer();
         customer.setFirstName("Andrzej");
