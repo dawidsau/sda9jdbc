@@ -1,14 +1,18 @@
 package pl.sda.jdbcjpa.person;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import lombok.*;
+
+import javax.persistence.*;
 
 @Entity
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
 public class Customer {
 
     @Id
+    @Setter(AccessLevel.NONE)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
@@ -21,4 +25,7 @@ public class Customer {
     private String street;
 
     private String postalCode;
+
+    @Transient
+    private String thisFieldIsNotToPersist;
 }
