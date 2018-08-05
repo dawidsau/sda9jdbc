@@ -1,8 +1,13 @@
 package pl.sda.jdbcjpa;
 
+import com.google.common.collect.Lists;
+import pl.sda.jdbcjpa.order.Order;
+import pl.sda.jdbcjpa.order.OrderStatus;
 import pl.sda.jdbcjpa.person.Customer;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 public class JpaMain {
@@ -11,15 +16,36 @@ public class JpaMain {
             Persistence.createEntityManagerFactory("sdajpaPU");
 
     public static void main(String[] args) {
-        createCustomer();
-        findCustomerJPQL("Nowak");
-        findCustomerEM(1);
+//        createCustomer();
+//        findCustomerJPQL("Nowak");
+//        findCustomerEM(1);
 
         createCustomerWithOrder();
     }
 
     private static void createCustomerWithOrder() {
+        Customer customer = new Customer();
+        customer.setFirstName("Karol");
+        customer.setSurname("Kowalski");
+        customer.setStreet("Jagodowa");
+        customer.setCity("Jelenia Góra");
+        customer.setPostalCode("88-888");
+        customer.setThisFieldIsNotToPersist("BUM");
 
+        Order order = new Order();
+        order.setCreateDate(new Date());
+        order.setOrderStatus(OrderStatus.NEW);
+        order.setTotalCost(BigDecimal.valueOf(1.9));
+        order.setCustomerName("Karol K");
+
+        customer.setOrdersList(Lists.newArrayList(order));
+        order.setCustomer(customer);
+
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
+        entityManager.persist(order);
+        entityManager.persist(customer);
+        entityManager.getTransaction().commit();
     }
 
     private static void findCustomerEM(Integer id) {
