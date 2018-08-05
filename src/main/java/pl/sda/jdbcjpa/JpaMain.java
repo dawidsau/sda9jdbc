@@ -43,9 +43,11 @@ public class JpaMain {
 
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
+//        entityManager.persist(customer);
         entityManager.persist(order);
-        entityManager.persist(customer);
         entityManager.getTransaction().commit();
+        List<Order> ordersList = customer.getOrdersList();
+        System.out.println();
     }
 
     private static void findCustomerEM(Integer id) {

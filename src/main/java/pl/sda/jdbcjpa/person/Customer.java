@@ -33,6 +33,6 @@ public class Customer {
     @Transient
     private String thisFieldIsNotToPersist;
 
-    @OneToMany(mappedBy = "customer")
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.PERSIST)
     private List<Order> ordersList = Lists.newArrayList();
 }
