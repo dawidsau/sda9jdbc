@@ -1,10 +1,12 @@
 package pl.sda.jdbcjpa;
 
 import com.google.common.collect.Lists;
+import com.querydsl.core.Tuple;
+import com.querydsl.jpa.impl.JPAQuery;
 import pl.sda.jdbcjpa.order.Order;
 import pl.sda.jdbcjpa.order.OrderStatus;
-import pl.sda.jdbcjpa.person.Customer;
-import pl.sda.jdbcjpa.person.CustomerDao;
+import pl.sda.jdbcjpa.order.QOrder;
+import pl.sda.jdbcjpa.person.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -25,11 +27,36 @@ public class JpaMain {
 
         createCustomerWithOrder();
         findCustomersWithOrders();
+        findCustomersByCityLike();
+        findCustomersWithOrdersUsingQueryDSL();
+    }
+
+    private static void findCustomersWithOrdersUsingQueryDSL() {
+        QCustomer customer = QCustomer.customer;
+        QOrder order = QOrder.order;
+        EntityManager em = ENTITY_MANAGER_FACTORY.createEntityManager();
+        List<CustomerDto> fetch = new JPAQuery<>(em)
+                .select(new QCustomerDto(customer.id,customer.city))
+                .from(customer)
+                .join(order).fetchAll()
+                .on(customer.id.eq(order.customer.id))
+                .fetch();
+        System.out.println();
+//        for (Tuple tuple : fetch) {
+//            System.out.println(tuple.get(0, Integer.class) + " " + tuple.get(1, String.class));
+//        }
+    }
+
+    private static void findCustomersByCityLike() {
+        List<Customer> jelCustomers = customerDao.findCustomersByCity("Jel%");
+        System.out.println(jelCustomers);
     }
 
     private static void findCustomersWithOrders() {
         List<Customer> customersWithOrders = customerDao.findCustomersWithOrders();
-        System.out.println();
+        for (Customer customersWithOrder : customersWithOrders) { //LAZY powoduje dociąganie danych
+            System.out.println(customersWithOrder.getOrdersList().size());
+        }
     }
 
     private static void createCustomerWithOrder() {

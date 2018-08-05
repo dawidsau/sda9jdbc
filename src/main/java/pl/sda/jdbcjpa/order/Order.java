@@ -26,7 +26,7 @@ public class Order {
     @Temporal(TemporalType.TIMESTAMP)
     private Date createDate;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
     @ManyToOne

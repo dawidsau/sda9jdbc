@@ -13,6 +13,10 @@ import java.util.List;
 @Setter
 @ToString
 @NoArgsConstructor
+@NamedQueries({
+        @NamedQuery(name = "findCustomersByCityLike",
+                query = "select c from Customer c where c.city like :city")
+})
 public class Customer {
 
     @Id

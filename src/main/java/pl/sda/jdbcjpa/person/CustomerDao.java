@@ -27,4 +27,9 @@ public class CustomerDao {
                 Customer.class
         ).getResultList();
     }
+
+    public List<Customer> findCustomersByCity(String city) {
+        return entityManager.createNamedQuery("findCustomersByCityLike")
+                .setParameter("city", city).getResultList();
+    }
 }
